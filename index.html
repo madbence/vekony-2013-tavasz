@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="utf-8">
+    <title>Alkalmazásfejlesztés vékony kliens technológiákkal - K7YLW5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dányi Bence, K7YLW5">
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px;
+      }
+      canvas {
+        border: 1px solid #666;
+        border-radius: 2px;
+        box-shadow: 0 0 40px rgba(0,0,0,0.3);
+      }
+    </style>
+    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">lennon mókázik</a>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="page-header">
+        <h1>Distributed Raytracing <small>with JavaScript using Webworkers &amp; Websockets &amp; node.js</small></h1>
+      </div>
+      <div class="row">
+        <div class="span6">
+          <canvas data-bind="attr: {width: imageDetails.width, height: imageDetails.height}" id="canvas">Canvas not supported</canvas>
+        </div>
+        <div class="span6">
+          <h3>Worker status</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span6">
+          <h3>Objects</h3>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Material</th>
+                <th style="min-width: 200px;">Parameters</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: objectList">
+              <tr>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                      Sphere
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a tabindex="-1" href="#">Sphere</a></li>
+                      <li><a tabindex="-1" href="#">Plane</a></li>
+                      <li><a tabindex="-1" href="#">Other</a></li>
+                    </ul>
+                  </div>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                      Green diffuse
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a tabindex="-1" href="#">Green diffuse</a></li>
+                      <li><a tabindex="-1" href="#">Gold</a></li>
+                      <li><a tabindex="-1" href="#">Glass</a></li>
+                    </ul>
+                  </div>
+                </td>
+                <td style="min-width: 200px;">
+                  <form>
+                    <div class="control-group" data-bind="css: {error: !validRadius()}">
+                      <div class="input-prepend">
+                        <span class="add-on">Radius</span>
+                        <input type="text" class="input-mini" placeholder="Radius" data-bind="value: radius"/>
+                      </div>
+                    </div>
+                    <div class="control-group" data-bind="css: {error: !validPosition()}">
+                      <div class="input-prepend">
+                        <span class="add-on">Position</span>
+                        <input type="text" class="input-mini" placeholder="Position" data-bind="value: position"/>
+                      </div>
+                    </div>
+                  </form>
+                </td>
+                <td>
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="span6">
+          <h3>Image details</h3>
+          <form class="form-horizontal">
+            <div class="control-group">
+              <label class="control-label" for="imageWidth">Image width (px)</label>
+              <div class="controls">
+                <input type="text" id="imageWidth" placeholder="Image width in pixels" data-bind="value: imageDetails.width" />
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="imageHeight">Image height (px)</label>
+              <div class="controls">
+                <input type="text" id="imageHeight" placeholder="Image height in pixels" data-bind="value: imageDetails.height" />
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="imageSamples">Samples/px</label>
+              <div class="controls">
+                <input type="text" id="imageSamples" placeholder="Samples per pixel" data-bind="value: imageDetails.samples" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/knockout.js"></script>
+    <script src="http://localhost:1128/socket.io/socket.io.js"></script>
+    <script src="/static/js/project.js"></script>
+  </body>
+</html>
