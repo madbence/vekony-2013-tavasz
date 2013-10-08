@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="utf-8">
+    <title>Alkalmazásfejlesztés vékony kliens technológiákkal - K7YLW5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dányi Bence, K7YLW5">
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px;
+      }
+      canvas {
+        border: 1px solid #666;
+        border-radius: 2px;
+        box-shadow: 0 0 40px rgba(0,0,0,0.3);
+      }
+    </style>
+    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">lennon mókázik</a>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="page-header">
+        <h1>Distributed Raytracing <small>with JavaScript using Webworkers &amp; Websockets &amp; node.js</small></h1>
+      </div>
+      <div class="row">
+        <div class="span6">
+          <canvas data-bind="attr: {width: imageDetails.width, height: imageDetails.height}" id="canvas">Canvas not supported</canvas>
+        </div>
+        <div class="span6">
+          <h3>WorkerPool status <small>client id: <span data-bind="text: id"></span></small></h3>
+          <h4>Connected clients: <span data-bind="text: clientCount"></span></h4>
+          <h4>Workers: <span data-bind="text: workerCount"></span></h4>
+          <div class="control-group">
+            <div class="input-prepend">
+              <span class="add-on">Local workers</span>
+              <input type="number" class="input-mini" data-bind="value: localWorkers"/>
+            </div>
+          </div>
+          <h4>Local workers</h4>
+          <ul data-bind="foreach: { data: workers, as: 'worker' }">
+            <li>
+              Worker(<span data-bind="text: worker.id"></span>) ready: <span data-bind="text: worker.ready"></span>, Latecy: <span data-bind="text: worker.latecy"></span>ms
+            </li>
+          </ul>
+          <h4>Clients</h4>
+          <ul data-bind="foreach: { data: clients, as: 'client' }">
+            <li>
+              Client: <span data-bind="text: client.id"></span>
+              <ul data-bind="foreach: { data: client.workers, as: 'worker' }">
+                <li>
+                  Worker(<span data-bind="text: worker.id"></span>) ready: <span data-bind="text: worker.ready"></span>, Latecy: <span data-bind="text: worker.latecy"></span>ms
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/knockout.js"></script>
+    <script src="http://213.222.155.120:1128/socket.io/socket.io.js"></script>
+    <script src="/static/js/project2.js"></script>
+  </body>
+</html>

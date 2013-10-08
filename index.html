@@ -36,7 +36,32 @@
           <canvas data-bind="attr: {width: imageDetails.width, height: imageDetails.height}" id="canvas">Canvas not supported</canvas>
         </div>
         <div class="span6">
-          <h3>Worker status</h3>
+          <h3>WorkerPool status <small>client id: <span data-bind="text: id"></span></small></h3>
+          <h4>Connected clients: <span data-bind="text: clientCount"></span></h4>
+          <h4>Workers: <span data-bind="text: workerCount"></span></h4>
+          <div class="control-group">
+            <div class="input-prepend">
+              <span class="add-on">Local workers</span>
+              <input type="number" class="input-mini" data-bind="value: localWorkers"/>
+            </div>
+          </div>
+          <h4>Local workers</h4>
+          <ul data-bind="foreach: { data: workers, as: 'worker' }">
+            <li>
+              Worker(<span data-bind="text: worker.id"></span>) ready: <span data-bind="text: worker.ready"></span>, Latecy: <span data-bind="text: worker.latecy"></span>ms
+            </li>
+          </ul>
+          <h4>Clients</h4>
+          <ul data-bind="foreach: { data: clients, as: 'client' }">
+            <li>
+              Client: <span data-bind="text: client.id"></span>
+              <ul data-bind="foreach: { data: client.workers, as: 'worker' }">
+                <li>
+                  Worker(<span data-bind="text: worker.id"></span>) ready: <span data-bind="text: worker.ready"></span>, Latecy: <span data-bind="text: worker.latecy"></span>ms
+                </li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="row">
@@ -48,7 +73,7 @@
                 <th>Type</th>
                 <th>Material</th>
                 <th style="min-width: 200px;">Parameters</th>
-                <th>Edit</th>
+                <th><button class="btn btn-info" data-bind="click: addObject">Add</button></th>
               </tr>
             </thead>
             <tbody data-bind="foreach: objectList">
@@ -69,13 +94,11 @@
                 <td>
                   <div class="btn-group">
                     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                      Green diffuse
+                      <span data-bind="text: material().name"></span>
                       <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu">
-                      <li><a tabindex="-1" href="#">Green diffuse</a></li>
-                      <li><a tabindex="-1" href="#">Gold</a></li>
-                      <li><a tabindex="-1" href="#">Glass</a></li>
+                    <ul class="dropdown-menu" data-bind="foreach: $root.materials">
+                      <li><a tabindex="-1" href="#" data-bind="text: name, click: $parent.selectMaterial"></a></li>
                     </ul>
                   </div>
                 </td>
@@ -96,7 +119,7 @@
                   </form>
                 </td>
                 <td>
-                  <button type="submit" class="btn btn-danger">Delete</button>
+                  <button type="submit" class="btn btn-danger" data-bind="click: $parent.removeObject">Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -126,11 +149,53 @@
           </form>
         </div>
       </div>
+      <div class="row">
+        <div class="span6">
+          <h3>Materials</h3>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Properties</th>
+                <th><button class="btn btn-info" data-bind="click: addMaterial">Add</button></th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: materials">
+              <tr>
+                <td>
+                  <input type="text" class="input-mini" data-bind="value: name" />
+                </td>
+                <td>
+                  <div class="input-prepend">
+                    <span class="add-on">Ambient</span>
+                    <input type="text" class="input-mini" placeholder="Ambient" data-bind="value: ambient"/>
+                  </div>
+                  <div class="input-prepend">
+                    <span class="add-on">Diffuse</span>
+                    <input type="text" class="input-mini" placeholder="Diffuse" data-bind="value: diffuse"/>
+                  </div>
+                  <div class="input-prepend">
+                    <span class="add-on">Specular</span>
+                    <input type="text" class="input-mini" placeholder="Specular" data-bind="value: specular"/>
+                  </div>
+                  <div class="input-prepend">
+                    <span class="add-on">Shine</span>
+                    <input type="text" class="input-mini" placeholder="Shine" data-bind="value: shine"/>
+                  </div>
+                </td>
+                <td>
+                  <button class="btn btn-danger" data-bind="click: $parent.removeMaterial">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/knockout.js"></script>
-    <script src="http://localhost:1128/socket.io/socket.io.js"></script>
+    <script src="http://213.222.155.120:1128/socket.io/socket.io.js"></script>
     <script src="/static/js/project.js"></script>
   </body>
 </html>

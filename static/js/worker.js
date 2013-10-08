@@ -46,7 +46,7 @@ var Color = (function() {
     }
     Color.prototype = {
         mul: function(a) {
-            if (a.r !== undefined) {
+            if (typeof a !== 'number') {
                 return new Color(this.r * a.r, this.g * a.g, this.b * a.b);
             }
             return new Color(this.r * a, this.g * a, this.b * a);
@@ -157,7 +157,7 @@ var Scene = (function() {
             height: config.imageDetails.height,
             samples: config.imageDetails.samples,
         }
-        scene.addLight(new Vector(0, 0, 3));
+        scene.addLight(new Vector(2, 5, -1));
         scene.cam = {};
         scene.cam.eye = new Vector(0, 5, 0);
         scene.cam.lookat = new Vector(0, 0, 0);
@@ -202,10 +202,10 @@ var Scene = (function() {
                         sum = sum.add(color);
                     }
                     var mappedColor = sum;
-                    result[(width * y + x) * 4] = mappedColor.r*255;
-                    result[(width * y + x) * 4 + 1] = mappedColor.g*255;
-                    result[(width * y + x) * 4 + 2] = mappedColor.b*255;
-                    result[(width * y + x) * 4 + 3] = 255;
+                    result[(width * (y-y0) + (x-x0)) * 4 + 0] = Math.min(255, mappedColor.r*255);
+                    result[(width * (y-y0) + (x-x0)) * 4 + 1] = Math.min(255, mappedColor.g*255);
+                    result[(width * (y-y0) + (x-x0)) * 4 + 2] = Math.min(255, mappedColor.b*255);
+                    result[(width * (y-y0) + (x-x0)) * 4 + 3] = 255;
                 }
             }
             return result;
